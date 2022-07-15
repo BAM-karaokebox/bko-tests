@@ -22,8 +22,8 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
         env:
-          AUTH_USER_BACK: ${{ secrets.AUTH_USER_BACK }}
-          AUTH_PASS_BACK: ${{ secrets.AUTH_PASS_BACK }}
+          AUTH_USER_BKO: ${{ secrets.AUTH_USER_BKO }}
+          AUTH_PASS_BKO: ${{ secrets.AUTH_PASS_BKO }}
       - uses: actions/upload-artifact@v2
         if: always()
         with:
