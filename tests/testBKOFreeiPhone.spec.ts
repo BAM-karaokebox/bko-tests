@@ -101,10 +101,10 @@ test.describe("Test Bam Karaoke Online", () => {
 
       // Wait the timer to appear and read it
       if (format == 'MP3_KBP') {
-        await page.locator('.sc-iIEYCM').click();
+        await page.locator('.sc-eWVKcp').click();
         const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
         await page.waitForTimeout(10000);
-        await page.locator('.sc-iIEYCM').click();
+        await page.locator('.sc-eWVKcp').click();
         const currentTimerMusic = await page.locator('.sc-fXoxut').innerText();
 
         if (currentTimerMusic === timerMusicBegin) {
@@ -134,10 +134,10 @@ test.describe("Test Bam Karaoke Online", () => {
       await playSong(page, 'XTS', 'XTS003#' );
   
       await page.waitForTimeout(3000);
-      await page.locator('.sc-iIEYCM').click();
+      await page.locator('.sc-eWVKcp').click();
       const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
       await page.waitForTimeout(10000);
-      await page.locator('.sc-iIEYCM').click();
+      await page.locator('.sc-eWVKcp').click();
       await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
       await page.waitForTimeout(2000);
   
@@ -159,12 +159,12 @@ test.describe("Test Bam Karaoke Online", () => {
   test('Back button', async ({ page }) => {
       await playSong(page, 'XTS', 'XTS003#');
   
-      await page.waitForTimeout(20000);
-      await page.locator('.sc-iIEYCM').click();
+      await page.waitForTimeout(15000);
+      await page.locator('.sc-eWVKcp').click();
       const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
   
       // Click on the back button
-      await page.locator('.sc-iIEYCM').click();
+      await page.locator('.sc-eWVKcp').click();
       await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
       await page
         .locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=0`)
@@ -177,7 +177,7 @@ test.describe("Test Bam Karaoke Online", () => {
         throw new Error("Button back doesn't work");
       }
     });
-  
+
   test('Next button', async ({ page }) => {
       await playlistSong(page, 'XTS');
   
@@ -187,7 +187,7 @@ test.describe("Test Bam Karaoke Online", () => {
       await page.waitForTimeout(5000);
   
       // Click on the next button
-      await page.locator('.sc-iIEYCM').click();
+      await page.locator('.sc-eWVKcp').click();
       await page
         .locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=2`)
         .first()
@@ -214,10 +214,10 @@ test.describe("Test Bam Karaoke Online", () => {
     await playSong(page, 'XTS', 'XTS003#');
     await page.waitForTimeout(15000);
   
-    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.sc-eWVKcp').click();
     const timerBeforeAction = await page.locator('.sc-fXoxut').innerText();
   
-    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.sc-eWVKcp').click();
     await page.locator('.MuiSlider-track').first().click();
   
     await page.waitForTimeout(1000);
@@ -228,65 +228,14 @@ test.describe("Test Bam Karaoke Online", () => {
     }
   });
   
-  test('Rail slide', async ({ page }) => {
-      await playlistSong(page, 'XTS');
-  
-      await page.locator(`text=/.*XTS003#.*/`).click();
-      await page.locator('#play-button').click();
-  
-      await page.waitForTimeout(3000);
-      await page.locator('.sc-iIEYCM').click();
-      await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
-  
-      await page.locator('.sc-iIEYCM').click();
-      await page.waitForSelector('[role="slider"]');
-      const slider = await page.$('[role="slider"]');
-      const targetTimer1 = '00:52 / 00:52';
-      const targetTimer2 = '00:00 / 03:24';
-      let isCompleted = false;
-      if (slider) {
-        while (!isCompleted) {
-          const srcBound = await slider.boundingBox();
-          if (srcBound) {
-            await page.mouse.down({ button: 'left' });
-            await page.mouse.move(srcBound.x + 100, srcBound.y);
-            await page.mouse.up({ button: 'left' });
-            const timer = await page.locator('.sc-fXoxut').textContent();
-            if (timer == targetTimer1 || timer == targetTimer2 ) {
-              isCompleted = true;
-            }
-          }
-        }
-      }
-    });
-  
   test('Check if the next song run', async ({ page }) => {
       await playlistSong(page, 'XTS');
   
       await page.locator(`text=/.*XTS003#.*/`).click();
       await page.locator('#play-button').click();
-      await page.waitForTimeout(3000);
   
-      await page.locator('.sc-iIEYCM').click();
-      await page.waitForSelector('[role="slider"]');
-      const slider = await page.$('[role="slider"]');
-      const targetTimer1 = '00:52 / 00:52';
-      const targetTimer2 = '00:00 / 03:24';
-      let isCompleted = false;
-      if (slider) {
-        while (!isCompleted) {
-          const srcBound = await slider.boundingBox();
-          if (srcBound) {
-            await page.mouse.down({ button: 'left' });
-            await page.mouse.move(srcBound.x + 100, srcBound.y);
-            await page.mouse.up({ button: 'left' });
-            const timer = await page.locator('.sc-fXoxut').textContent();
-            if (timer == targetTimer1 || timer == targetTimer2 ) {
-              isCompleted = true;
-            }
-          }
-        }
-      }  
+      await page.waitForTimeout(60000);
+  
       await page.waitForSelector('.sc-kiYtDG');
       await checkPlayerIsRunning(page);
   
@@ -309,10 +258,11 @@ test.describe("Test Bam Karaoke Online", () => {
       // Create new account
       const page = await browser.newPage();
 
-      randomUsername = `tsltestWebkit${Math.floor(Math.random() * 1000000)}@gmail.com`
+      randomUsername = `tsltestiPhone${Math.floor(Math.random() * 1000000)}@gmail.com`
 
       await page.goto(BASE_URL);
-      await page.click('text="Sign up"');
+      await page.locator('.sc-dacFzL').click()
+      await page.locator('text="Sign up."').click()
       await page.locator('[placeholder="Enter your email address"]').fill(randomUsername);
       await page.locator('[placeholder="Create a password (minimum 6 characters)"]').fill('tsltest');
       await page.locator('button:has-text("Sign up")').click();
@@ -336,7 +286,7 @@ test.describe("Test Bam Karaoke Online", () => {
     test.beforeEach(async ({ page }) => {
       // Create new account
       await page.goto(BASE_URL);
-      await page.click('text="Log in"');
+      await page.locator('.sc-dacFzL').click()
       await page.locator('[placeholder="Enter your email"]').fill(randomUsername);
       await page.locator('[placeholder="Enter your password"]').fill('tsltest');
       await page.locator('text=Login').click();

@@ -9,20 +9,20 @@ import { devices } from '@playwright/test';
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 90000,
+  timeout: 80000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      */
     timeout: 20000,
   },
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  /* Fail the build on CI if you accidentally left test.only in the source code.*/
   forbidOnly: !!process.env.CI,
   /*
    * We allow one retry to make the tests less prone to time-out issues,
    * but no more (to avoid aggravating ongoing performance crunches).
    */
-  retries: 1,
+  retries: 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 1,
   /* Reporter to use. */
@@ -50,14 +50,21 @@ const config: PlaywrightTestConfig = {
       use: { ...devices['iPad Pro 11 landscape'],
       headless: true,
     },
-    testMatch: [/testBKOiPad.spec.ts/, /testBKOFreeiPad.spec.ts/ ]
+    testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPad (gen 7) landscape',
       use: { ...devices['iPad (gen 7) landscape'],
       headless: true,
     },
-    testMatch: [/testBKOiPad.spec.ts/, /testBKOFreeiPad.spec.ts/ ]
+    testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
+    },
+    {
+      name: 'iPhone 11 Pro',
+      use: { ...devices['iPhone 11 Pro'],
+      headless: true,
+    },
+    testMatch: [/testBKOiPhone.spec.ts/, /testBKOFreeiPhone.spec.ts/ ]
     },
   ],
 };

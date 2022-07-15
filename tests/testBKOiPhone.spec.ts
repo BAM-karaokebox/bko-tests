@@ -3,7 +3,7 @@ import { test, expect, Page } from '@playwright/test';
 const BASE_URL = 'https://www.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
 
 let format: string;
-  
+
 interface Artist {
     testName: string;
     name: string;
@@ -98,10 +98,10 @@ const testDifferentSong = async (page: Page, artist: Artist) => {
 
     // Wait the timer to appear and read it
     if (format == 'MP3_KBP') {
-      await page.locator('.sc-iIEYCM').click();
+      await page.locator('.sc-eWVKcp').click();
       const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
       await page.waitForTimeout(10000);
-      await page.locator('.sc-iIEYCM').click();
+      await page.locator('.sc-eWVKcp').click();
       const currentTimerMusic = await page.locator('.sc-fXoxut').innerText();
 
       if (currentTimerMusic === timerMusicBegin) {
@@ -131,10 +131,10 @@ test('Play/Pause button', async ({ page }) => {
     await playSong(page, 'XTS', 'XTS003#' );
 
     await page.waitForTimeout(3000);
-    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.sc-eWVKcp').click();
     const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
     await page.waitForTimeout(10000);
-    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.sc-eWVKcp').click();
     await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
     await page.waitForTimeout(2000);
 
@@ -156,12 +156,11 @@ test('Play/Pause button', async ({ page }) => {
 test('Back button', async ({ page }) => {
     await playSong(page, 'XTS', 'XTS003#');
 
-    await page.waitForTimeout(20000);
-    await page.locator('.sc-iIEYCM').click();
+    await page.waitForTimeout(15000);
     const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
 
     // Click on the back button
-    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.sc-eWVKcp').click();
     await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
     await page
       .locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=0`)
@@ -184,7 +183,7 @@ test('Next button', async ({ page }) => {
     await page.waitForTimeout(5000);
 
     // Click on the next button
-    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.sc-eWVKcp').click();
     await page
       .locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=2`)
       .first()
@@ -211,10 +210,10 @@ test('Rail click', async ({ page }) => {
   await playSong(page, 'XTS', 'XTS003#');
   await page.waitForTimeout(15000);
 
-  await page.locator('.sc-iIEYCM').click();
+  await page.locator('.sc-eWVKcp').click();
   const timerBeforeAction = await page.locator('.sc-fXoxut').innerText();
 
-  await page.locator('.sc-iIEYCM').click();
+  await page.locator('.sc-eWVKcp').click();
   await page.locator('.MuiSlider-track').first().click();
 
   await page.waitForTimeout(1000);
@@ -225,66 +224,14 @@ test('Rail click', async ({ page }) => {
   }
 });
 
-test('Rail slide', async ({ page }) => {
-    await playlistSong(page, 'XTS');
-
-    await page.locator(`text=/.*XTS003#.*/`).click();
-    await page.locator('#play-button').click();
-
-    await page.waitForTimeout(3000);
-    await page.locator('.sc-iIEYCM').click();
-    await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
-
-    await page.locator('.sc-iIEYCM').click();
-    await page.waitForSelector('[role="slider"]');
-    const slider = await page.$('[role="slider"]');
-    const targetTimer1 = '00:52 / 00:52';
-    const targetTimer2 = '00:00 / 03:24';
-    let isCompleted = false;
-    if (slider) {
-      while (!isCompleted) {
-        const srcBound = await slider.boundingBox();
-        if (srcBound) {
-          await page.mouse.down({ button: 'left' });
-          await page.mouse.move(srcBound.x + 100, srcBound.y);
-          await page.mouse.up({ button: 'left' });
-          const timer = await page.locator('.sc-fXoxut').textContent();
-          //const lastSong = await page.locator('.MuiTypography-body1').innerText();
-          if (timer == targetTimer1 || timer == targetTimer2 ) {
-            isCompleted = true;
-          }
-        }
-      }
-    }
-  });
-
 test('Check if the next song run', async ({ page }) => {
     await playlistSong(page, 'XTS');
 
     await page.locator(`text=/.*XTS003#.*/`).click();
     await page.locator('#play-button').click();
-    await page.waitForTimeout(3000);
 
-    await page.locator('.sc-iIEYCM').click();
-    await page.waitForSelector('[role="slider"]');
-    const slider = await page.$('[role="slider"]');
-    const targetTimer1 = '00:52 / 00:52';
-    const targetTimer2 = '00:00 / 03:24';
-    let isCompleted = false;
-    if (slider) {
-      while (!isCompleted) {
-        const srcBound = await slider.boundingBox();
-        if (srcBound) {
-          await page.mouse.down({ button: 'left' });
-          await page.mouse.move(srcBound.x + 100, srcBound.y);
-          await page.mouse.up({ button: 'left' });
-          const timer = await page.locator('.sc-fXoxut').textContent();
-          if (timer == targetTimer1 || timer == targetTimer2 ) {
-            isCompleted = true;
-          }
-        }
-      }
-    }  
+    await page.waitForTimeout(60000);
+
     await page.waitForSelector('.sc-kiYtDG');
     await checkPlayerIsRunning(page);
 
@@ -306,9 +253,10 @@ test('Check if the next song run', async ({ page }) => {
 test.beforeEach(async ({ page }) => {
     // Log in
     await page.goto(BASE_URL);
-    await page.click('text="Log in"');
+    await page.locator('.sc-dacFzL').click()
     await page.locator('[placeholder="Enter your email"]').fill('tsltest');
     await page.locator('[placeholder="Enter your password"]').fill('tsltest');
     await page.locator('text=Login').click();
-    await page.waitForSelector('.sc-JAcuL ');
+    await page.waitForTimeout(3000)
+    //await page.waitForSelector('.sc-JAcuL ');
 });
