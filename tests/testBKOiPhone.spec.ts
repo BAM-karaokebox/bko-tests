@@ -260,5 +260,4 @@ test.beforeEach(async ({ page }) => {
     await page.locator('[placeholder="Enter your password"]').fill(process.env.AUTH_PASS_BKO);
     await page.locator('text=Login').click();
     await page.waitForTimeout(3000)
-    //await page.waitForSelector('.sc-JAcuL ');
 });

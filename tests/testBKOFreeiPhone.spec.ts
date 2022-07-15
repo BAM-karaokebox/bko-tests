@@ -291,5 +291,6 @@ test.describe("Test Bam Karaoke Online", () => {
       await page.locator('[placeholder="Enter your password"]').fill('tsltest');
       await page.locator('text=Login').click();
       await page.locator('.sc-gYhigD').click()
+      await page.waitForTimeout(3000);
     });
 })
