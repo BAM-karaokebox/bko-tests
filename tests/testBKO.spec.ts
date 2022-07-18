@@ -5,7 +5,7 @@ dotenv.config();
 
 const BASE_URL = 'https://www.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
 
-test.describe('sub test',testBKO);
+test.describe('test Bam Karaoke Online',testBKO);
 
 test.beforeEach(async ({ page }) => {
     // Log in

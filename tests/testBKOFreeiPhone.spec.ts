@@ -6,7 +6,7 @@ dotenv.config();
 const BASE_URL = 'https://www.app.staging.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
 let randomUsername : string;
 
-test.describe('sub test',testBKOiPhone);
+test.describe('test Bam Karaoke Online free account',testBKOiPhone);
 
 test.beforeAll(async ({ browser }) => {
   // Create new account
