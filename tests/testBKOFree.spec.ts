@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+  import { test } from '@playwright/test';
 import {testBKO} from './testBKOimp.spec'
 
 const BASE_URL = 'https://www.app.staging.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
@@ -40,5 +40,7 @@ test.beforeEach(async ({ page }) => {
   await page.locator('[placeholder="Enter your email"]').fill(randomUsername);
   await page.locator('[placeholder="Enter your password"]').fill('tsltest');
   await page.locator('text=Login').click();
+  await page.waitForTimeout(3000);
   await page.locator('.sc-gYhigD').click()
+  
 });
