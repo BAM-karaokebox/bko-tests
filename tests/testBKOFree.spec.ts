@@ -30,7 +30,7 @@ test.beforeAll(async ({ browser }) => {
   }
   const offer = await page.locator('.sc-iLcRNb').locator('.sc-hHKmLs >> nth=0').textContent();
   if (offer == '€0'){
-      await page.locator('.sc-iLcRNb').nth(0).locator('.sc-hLGeHF').nth(0).click()
+      await page.locator('.sc-iLcRNb').nth(0).locator('.sc-hLGeHF, .sc-cRcunm').nth(0).click()
   }
 });
 test.beforeEach(async ({ page }) => {
@@ -40,5 +40,6 @@ test.beforeEach(async ({ page }) => {
   await page.locator('[placeholder="Enter your email"]').fill(randomUsername);
   await page.locator('[placeholder="Enter your password"]').fill('tsltest');
   await page.locator('text=Login').click();
+  await page.waitForTimeout(3000);
   await page.locator('.sc-gYhigD').click()
 });

@@ -69,7 +69,6 @@ const playlistSong = async (page: Page, artistName: string) => {
   await page.locator('button:has-text("Add to waiting list")').click();
 
   await page.locator('a[role="button"]:has-text("PLAYLIST") >> nth=0').click();
-  await expect(page).toHaveURL('https://www.bam-karaokeonline.com/waiting-list');
   await page.waitForTimeout(4000);
 };
 
