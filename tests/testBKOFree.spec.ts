@@ -1,4 +1,4 @@
-  import { test } from '@playwright/test';
+import { test } from '@playwright/test';
 import {testBKO} from './testBKOimp.spec'
 
 const BASE_URL = 'https://www.app.staging.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
@@ -30,7 +30,7 @@ test.beforeAll(async ({ browser }) => {
   }
   const offer = await page.locator('.sc-iLcRNb').locator('.sc-hHKmLs >> nth=0').textContent();
   if (offer == '€0'){
-      await page.locator('.sc-iLcRNb').nth(0).locator('.sc-hLGeHF').nth(0).click()
+      await page.locator('.sc-iLcRNb').nth(0).locator('.sc-hLGeHF, .sc-cRcunm').nth(0).click()
   }
 });
 test.beforeEach(async ({ page }) => {
@@ -42,5 +42,4 @@ test.beforeEach(async ({ page }) => {
   await page.locator('text=Login').click();
   await page.waitForTimeout(3000);
   await page.locator('.sc-gYhigD').click()
-  
 });

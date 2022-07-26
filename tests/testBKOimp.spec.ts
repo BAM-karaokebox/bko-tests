@@ -240,18 +240,20 @@ test('Rail slide', async ({ page }) => {
     await page.waitForSelector('[role="slider"]');
     const slider = await page.$('[role="slider"]');
     const targetTimer = '00:00 / 03:24';
+    const targetTimer1 = '00:00 / 00:52';
+    const targetTimer2 = '00:52 / 00:52';
     let isCompleted = false;
     if (slider) {
       while (!isCompleted) {
         const srcBound = await slider.boundingBox();
         if (srcBound) {
           await page.mouse.down({ button: 'left' });
-          await page.mouse.move(srcBound.x + 200, srcBound.y);
+          await page.mouse.move(srcBound.x + 300, srcBound.y);
           await page.mouse.up({ button: 'left' });
           await page.waitForTimeout(2000);
           const timer = await page.locator('.sc-fXoxut').textContent();
           //const lastSong = await page.locator('.MuiTypography-body1').innerText();
-          if (timer == targetTimer) {
+          if (timer == targetTimer || timer == targetTimer1 || timer == targetTimer2) {
             isCompleted = true;
           }
         }
@@ -270,17 +272,19 @@ test('Check if the next song run', async ({ page }) => {
     await page.waitForSelector('[role="slider"]');
     const slider = await page.$('[role="slider"]');
     const targetTimer = '00:00 / 03:24';
+    const targetTimer1 = '00:00 / 00:52';
+    const targetTimer2 = '00:52 / 00:52';
     let isCompleted = false;
     if (slider) {
       while (!isCompleted) {
         const srcBound = await slider.boundingBox();
         if (srcBound) {
           await page.mouse.down({ button: 'left' });
-          await page.mouse.move(srcBound.x + 200, srcBound.y);
+          await page.mouse.move(srcBound.x + 300, srcBound.y);
           await page.mouse.up({ button: 'left' });
           await page.waitForTimeout(2000);
           const timer = await page.locator('.sc-fXoxut').textContent();
-          if (timer == targetTimer ) {
+          if (timer == targetTimer || timer == targetTimer1 || timer == targetTimer2) {
             isCompleted = true;
           }
         }
