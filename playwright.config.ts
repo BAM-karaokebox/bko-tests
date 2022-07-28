@@ -41,28 +41,28 @@ const config: PlaywrightTestConfig = {
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'],
-      headless: false,
+      headless: true,
     },
     testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPad Pro 11 landscape',
       use: { ...devices['iPad Pro 11 landscape'],
-      headless: false,
+      headless: true,
     },
     testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPad (gen 7) landscape',
       use: { ...devices['iPad (gen 7) landscape'],
-      headless: false,
+      headless: true,
     },
     testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPhone 11 Pro',
       use: { ...devices['iPhone 11 Pro'],
-      headless: false,
+      headless: true,
     },
     testMatch: [/testBKOiPhone.spec.ts/, /testBKOFreeiPhone.spec.ts/ ]
     },
