@@ -1,5 +1,8 @@
 name: BAM Karaoke Online Tests
 on:
+  push:
+    branches:
+      - BKO-113-test-as-a-user-i-can-use-bko-on-a-browser
   workflow_dispatch:
   schedule:
     - cron: '0 9 * * *'

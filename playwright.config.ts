@@ -33,7 +33,7 @@ const config: PlaywrightTestConfig = {
     actionTimeout: 20000,
 
     /* Collect trace when a test fail. Check at the end of the report */
-    trace: 'retain-on-failure',
+    trace: 'on',
   },
 
   /* Configure projects for major browsers */
@@ -41,28 +41,28 @@ const config: PlaywrightTestConfig = {
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'],
-      headless: true,
+      headless: false,
     },
     testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPad Pro 11 landscape',
       use: { ...devices['iPad Pro 11 landscape'],
-      headless: true,
+      headless: false,
     },
     testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPad (gen 7) landscape',
       use: { ...devices['iPad (gen 7) landscape'],
-      headless: true,
+      headless: false,
     },
     testMatch: [/testBKO.spec.ts/, /testBKOFree.spec.ts/ ]
     },
     {
       name: 'iPhone 11 Pro',
       use: { ...devices['iPhone 11 Pro'],
-      headless: true,
+      headless: false,
     },
     testMatch: [/testBKOiPhone.spec.ts/, /testBKOFreeiPhone.spec.ts/ ]
     },
