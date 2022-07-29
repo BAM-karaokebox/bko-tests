@@ -4,6 +4,10 @@ dotenv.config();
 
 export const testBKO = () => {
 
+const urlStaging = 'https://www.app.staging.bam-karaokeonline.com/player';
+const urlProd = 'https://www.bam-karaokeonline.com/player';
+
+
 let format: string;
   
 interface Artist {
@@ -30,6 +34,8 @@ const ARTIST: Artist[] = [
     },
   ];
 
+
+
 const playSong = async (page: Page, artistName: string, songName: string) => {
     await page.fill('[type="text"]', `${artistName}`);
     await page.keyboard.press('Enter');
@@ -38,14 +44,29 @@ const playSong = async (page: Page, artistName: string, songName: string) => {
     await page.locator(`text=/.*${songName}.*/`).click();
     await page.locator('#play-button').click();
 
-    page.on('response', async (reponse) => {
-      if (reponse.request().url() === 'https://backend.api.bam-karaokeonline.com/video-metadata/b2c') {
-        let body = await reponse.body();
-        body = JSON.parse(body.toString()) as Buffer;
-        format = body.playerType;
-      }
-    });
+    const url = page.url()
 
+    if(url == urlProd){
+      page.on('response', async (reponse) => {
+        if (reponse.request().url() === 'https://backend.api.bam-karaokeonline.com/video-metadata/b2c') {
+          let body = await reponse.body();
+          body = JSON.parse(body.toString()) as Buffer;
+          format = body.playerType;
+          console.log(body)
+          console.log(format)
+        }
+      });    
+    }
+
+    if(url == urlStaging){
+      page.on('response', async (reponse) => {
+        if (reponse.request().url() === 'https://backend.api.staging.bam-karaokeonline.com/video-metadata/b2c') {
+          let body = await reponse.body();
+          body = JSON.parse(body.toString()) as Buffer;
+          format = body.playerType;
+        }
+      });    
+    }
     await page.waitForTimeout(5000);
     if (format == 'MP3_KBP') {
         await page.waitForSelector('.sc-kiYtDG >> .sc-cKZHah');
