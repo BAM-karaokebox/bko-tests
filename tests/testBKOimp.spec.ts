@@ -3,33 +3,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const testBKO = () => {
-
   const urlStaging = 'https://www.app.staging.bam-karaokeonline.com/player';
   const urlProd = 'https://www.bam-karaokeonline.com/player';
-
-  interface Artist {
-    testName: string;
-    name: string;
-    song: string;
-  };
-
-  const ARTIST: Artist[] = [
-    {
-      testName: 'English speaking song',
-      name: 'XTS',
-      song: 'XTS003#',
-    },
-    {
-      testName: 'Song with an accentuated characters in its title',
-      name: 'XTS',
-      song: 'XTS013ñ',
-    },
-    {
-      testName: 'MP4 song',
-      name: 'XTS',
-      song: 'XTS018=',
-    },
-  ];
 
   const Playlist = ['XTS013ñ', 'XTS006|', 'XTS003#'];
   const watingListSong = async (page: Page, artistName: string) => {
@@ -39,13 +14,13 @@ export const testBKO = () => {
 
     await page.locator(`text=${Playlist[0]}`).click();
     await page.locator('button:has-text("Add to waiting list")').click();
-  
+
     await page.locator(`text=${Playlist[1]}`).click();
     await page.locator('button:has-text("Add to waiting list")').click();
-  
+
     await page.locator(`text=${Playlist[2]}`).click();
     await page.locator('button:has-text("Add to waiting list")').click();
-  
+
     await page.locator('a[role="button"]:has-text("PLAYLIST") >> nth=0').click();
     await page.waitForTimeout(4000);
   };
@@ -58,7 +33,7 @@ export const testBKO = () => {
     await page.locator(`text=${Playlist[0]}`).click();
     await page.locator('button:has-text("Add to a playlist")').click();
 
-    await page.locator('text="New Playlist"').click(); 
+    await page.locator('text="New Playlist"').click();
     await page.fill('.MuiInputBase-input.jss8, .MuiInputBase-input.jss14', 'test');
     await page.locator('text="OK"').click();
     await page.locator('.sc-fxNNfJ > div:nth-child(3) > .sc-bsipQr > .MuiSvgIcon-root').click();
@@ -67,7 +42,7 @@ export const testBKO = () => {
     await page.locator('button:has-text("Add to a playlist")').click();
     await page.locator('.sc-boeKoK, .sc-lhuSvW.heICHz').nth(3).click();
     await page.locator('.sc-fxNNfJ > div:nth-child(3) > .sc-bsipQr > .MuiSvgIcon-root').click();
-  
+
     await page.locator(`text=${Playlist[2]}`).click();
     await page.locator('button:has-text("Add to a playlist")').click();
     await page.locator('.sc-boeKoK, .sc-lhuSvW.heICHz').nth(3).click();
@@ -83,12 +58,12 @@ export const testBKO = () => {
       playlistTest.push(await song.nth(i).innerHTML());
     }
 
-    for(let i =0; i<playlistTest.length; i++){
-      if (playlistTest[i] !== Playlist[i] ) {
+    for (let i = 0; i < playlistTest.length; i++) {
+      if (playlistTest[i] !== Playlist[i]) {
         throw new Error("Next button doesn't work");
       }
     }
-  }
+  };
 
   test('Search function', async ({ page }) => {
     // search a song
@@ -105,7 +80,7 @@ export const testBKO = () => {
 
   test('Waiting List', async ({ page }) => {
     // search a song
-    await watingListSong(page, 'XTS')
+    await watingListSong(page, 'XTS');
 
     const waitingList = await page.evaluate(() => {
       const waitingPlaylist = [];
@@ -117,33 +92,31 @@ export const testBKO = () => {
       return waitingPlaylist;
     });
 
-    for(let i =0; i<waitingList.length; i++){
-      if (waitingList[i] !== Playlist[i] ) {
+    for (let i = 0; i < waitingList.length; i++) {
+      if (waitingList[i] !== Playlist[i]) {
         throw new Error("Next button doesn't work");
       }
     }
   });
 
   test('Playlist', async ({ page }) => {
+    const url = page.url();
 
-    const url = page.url()
-
-    if(url == urlProd){
+    if (url == urlProd) {
       await page.locator('a[role="button"]:has-text("MY PLAYLIST") >> nth=0').click();
-      await page.click('text="test"')
+      await page.click('text="test"');
 
-      await checkPlaylist(page)
+      await checkPlaylist(page);
     }
 
-    if(url == urlStaging){
-    // search a song
-    await playlistSong(page, 'XTS')
+    if (url == urlStaging) {
+      // search a song
+      await playlistSong(page, 'XTS');
 
-    await page.locator('a[role="button"]:has-text("MY PLAYLIST") >> nth=0').click();
-    await page.click('text="test"')
+      await page.locator('a[role="button"]:has-text("MY PLAYLIST") >> nth=0').click();
+      await page.click('text="test"');
 
-    await checkPlaylist(page)
-
+      await checkPlaylist(page);
     }
   });
 };

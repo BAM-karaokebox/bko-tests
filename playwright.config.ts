@@ -40,31 +40,23 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'],
-      headless: true,
-    },
-    testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/ ]
+      use: { ...devices['Desktop Safari'], headless: true },
+      testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/],
     },
     {
       name: 'iPad Pro 11 landscape',
-      use: { ...devices['iPad Pro 11 landscape'],
-      headless: true,
-    },
-    testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/ ]
+      use: { ...devices['iPad Pro 11 landscape'], headless: true },
+      testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/],
     },
     {
       name: 'iPad (gen 7) landscape',
-      use: { ...devices['iPad (gen 7) landscape'],
-      headless: true,
-    },
-    testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/ ]
+      use: { ...devices['iPad (gen 7) landscape'], headless: true },
+      testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/],
     },
     {
       name: 'iPhone 11 Pro',
-      use: { ...devices['iPhone 11 Pro'],
-      headless: true,
-    },
-    testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/ ]
+      use: { ...devices['iPhone 11 Pro'], headless: true },
+      testMatch: [/testBKO.spec.ts/, /testBKOFreeAcc.spec.ts/],
     },
   ],
 };

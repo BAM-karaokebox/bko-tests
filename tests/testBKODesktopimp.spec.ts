@@ -3,20 +3,18 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const testBKO = () => {
+  const urlStaging = 'https://www.app.staging.bam-karaokeonline.com/player';
+  const urlProd = 'https://www.bam-karaokeonline.com/player';
 
-const urlStaging = 'https://www.app.staging.bam-karaokeonline.com/player';
-const urlProd = 'https://www.bam-karaokeonline.com/player';
+  let format: string;
 
-
-let format: string;
-  
-interface Artist {
+  interface Artist {
     testName: string;
     name: string;
     song: string;
   }
 
-const ARTIST: Artist[] = [
+  const ARTIST: Artist[] = [
     {
       testName: 'English speaking song',
       name: 'XTS',
@@ -34,9 +32,7 @@ const ARTIST: Artist[] = [
     },
   ];
 
-
-
-const playSong = async (page: Page, artistName: string, songName: string) => {
+  const playSong = async (page: Page, artistName: string, songName: string) => {
     await page.fill('[type="text"]', `${artistName}`);
     await page.keyboard.press('Enter');
 
@@ -44,56 +40,54 @@ const playSong = async (page: Page, artistName: string, songName: string) => {
     await page.locator(`text=/.*${songName}.*/`).click();
     await page.locator('#play-button').click();
 
-    const url = page.url()
+    const url = page.url();
 
-    if(url == urlProd){
+    if (url == urlProd) {
       page.on('response', async (reponse) => {
         if (reponse.request().url() === 'https://backend.api.bam-karaokeonline.com/video-metadata/b2c') {
           let body = await reponse.body();
           body = JSON.parse(body.toString()) as Buffer;
-          format = body.playerType;
-          console.log(body)
-          console.log(format)
+          format = body.playerType as string;
         }
-      });    
+      });
     }
 
-    if(url == urlStaging){
+    if (url == urlStaging) {
       page.on('response', async (reponse) => {
         if (reponse.request().url() === 'https://backend.api.staging.bam-karaokeonline.com/video-metadata/b2c') {
           let body = await reponse.body();
           body = JSON.parse(body.toString()) as Buffer;
-          format = body.playerType;
+          format = body.playerType as string;
         }
-      });    
+      });
     }
     await page.waitForTimeout(5000);
     if (format == 'MP3_KBP') {
-        await page.waitForSelector('.sc-kiYtDG >> .sc-cKZHah');
+      await page.waitForSelector('.sc-kiYtDG >> .sc-cKZHah');
     }
-    await checkPlayerIsRunning (page);
-};
+    await checkPlayerIsRunning(page);
+  };
 
-const Playlist = ['XTS013ñ', 'XTS006|', 'XTS003#'];
-const playlistSong = async (page: Page, artistName: string) => {
-  // Search different song and create a playlist
-  await page.fill('[type="text"]', `${artistName}`);
-  await page.keyboard.press('Enter');
+  const Playlist = ['XTS013ñ', 'XTS006|', 'XTS003#'];
+  const playlistSong = async (page: Page, artistName: string) => {
+    // Search different song and create a playlist
+    await page.fill('[type="text"]', `${artistName}`);
+    await page.keyboard.press('Enter');
 
-  await page.locator(`text=${Playlist[0]}`).click();
-  await page.locator('button:has-text("Add to waiting list")').click();
+    await page.locator(`text=${Playlist[0]}`).click();
+    await page.locator('button:has-text("Add to waiting list")').click();
 
-  await page.locator(`text=${Playlist[1]}`).click();
-  await page.locator('button:has-text("Add to waiting list")').click();
+    await page.locator(`text=${Playlist[1]}`).click();
+    await page.locator('button:has-text("Add to waiting list")').click();
 
-  await page.locator(`text=${Playlist[2]}`).click();
-  await page.locator('button:has-text("Add to waiting list")').click();
+    await page.locator(`text=${Playlist[2]}`).click();
+    await page.locator('button:has-text("Add to waiting list")').click();
 
-  await page.locator('a[role="button"]:has-text("PLAYLIST") >> nth=0').click();
-  await page.waitForTimeout(4000);
-};
+    await page.locator('a[role="button"]:has-text("PLAYLIST") >> nth=0').click();
+    await page.waitForTimeout(4000);
+  };
 
-const checkPlayerIsRunning = async (page: Page) => {
+  const checkPlayerIsRunning = async (page: Page) => {
     if (format == 'MP3_KBP') {
       const word = await page.evaluate(() => {
         const word = [];
@@ -115,7 +109,7 @@ const checkPlayerIsRunning = async (page: Page) => {
     }
   };
 
-const testDifferentSong = async (page: Page, artist: Artist) => {
+  const testDifferentSong = async (page: Page, artist: Artist) => {
     await playSong(page, `${artist.name}`, `${artist.song}`);
 
     // Wait the timer to appear and read it
@@ -132,7 +126,7 @@ const testDifferentSong = async (page: Page, artist: Artist) => {
     }
   };
 
-test('Search function', async ({ page }) => {
+  test('Search function', async ({ page }) => {
     // search a song
     await page.type('[type="text"]', 'XTS');
     await page.waitForTimeout(2000);
@@ -145,19 +139,23 @@ test('Search function', async ({ page }) => {
     }
   });
 
-ARTIST.forEach((artist) => {
+  ARTIST.forEach((artist) => {
     test(`Artist: ${artist.testName}`, async ({ page }) => testDifferentSong(page, artist));
-});
+  });
 
-test('Play/Pause button', async ({ page }) => {
-    await playSong(page, 'XTS', 'XTS003#' );
+  test('Play/Pause button', async ({ page }) => {
+    await playSong(page, 'XTS', 'XTS003#');
 
     await page.waitForTimeout(3000);
     await page.locator('.sc-iIEYCM').click();
     const timerMusicBegin = await page.locator('.sc-fXoxut').innerText();
     await page.waitForTimeout(10000);
     await page.locator('.sc-iIEYCM').click();
-    await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
+    await page
+      .locator(
+        `text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`
+      )
+      .click();
     await page.waitForTimeout(2000);
 
     const currentTimerMusic = await page.locator('.sc-fXoxut').innerText();
@@ -175,7 +173,7 @@ test('Play/Pause button', async ({ page }) => {
     }
   });
 
-test('Back button', async ({ page }) => {
+  test('Back button', async ({ page }) => {
     await playSong(page, 'XTS', 'XTS003#');
 
     await page.waitForTimeout(20000);
@@ -184,9 +182,15 @@ test('Back button', async ({ page }) => {
 
     // Click on the back button
     await page.locator('.sc-iIEYCM').click();
-    await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
     await page
-      .locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=0`)
+      .locator(
+        `text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`
+      )
+      .click();
+    await page
+      .locator(
+        `text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=0`
+      )
       .first()
       .click();
     await page.waitForTimeout(3000);
@@ -197,7 +201,7 @@ test('Back button', async ({ page }) => {
     }
   });
 
-test('Next button', async ({ page }) => {
+  test('Next button', async ({ page }) => {
     await playlistSong(page, 'XTS');
 
     // Launch the first song of the playlist
@@ -208,7 +212,9 @@ test('Next button', async ({ page }) => {
     // Click on the next button
     await page.locator('.sc-iIEYCM').click();
     await page
-      .locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=2`)
+      .locator(
+        `text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=2`
+      )
       .first()
       .click();
 
@@ -227,27 +233,27 @@ test('Next button', async ({ page }) => {
     if (lastSong !== Playlist[2] && playlistTest.length !== 1) {
       throw new Error("Next button doesn't work");
     }
-});
+  });
 
-test('Rail click', async ({ page }) => {
-  await playSong(page, 'XTS', 'XTS003#');
-  await page.waitForTimeout(15000);
+  test('Rail click', async ({ page }) => {
+    await playSong(page, 'XTS', 'XTS003#');
+    await page.waitForTimeout(15000);
 
-  await page.locator('.sc-iIEYCM').click();
-  const timerBeforeAction = await page.locator('.sc-fXoxut').innerText();
+    await page.locator('.sc-iIEYCM').click();
+    const timerBeforeAction = await page.locator('.sc-fXoxut').innerText();
 
-  await page.locator('.sc-iIEYCM').click();
-  await page.locator('.MuiSlider-track').first().click();
+    await page.locator('.sc-iIEYCM').click();
+    await page.locator('.MuiSlider-track').first().click();
 
-  await page.waitForTimeout(1000);
-  const timerAfterAction = await page.locator('.sc-fXoxut').innerText();
+    await page.waitForTimeout(1000);
+    const timerAfterAction = await page.locator('.sc-fXoxut').innerText();
 
-  if (timerBeforeAction < timerAfterAction ) {
-    throw new Error("Rail doesn't work");
-  }
-});
+    if (timerBeforeAction < timerAfterAction) {
+      throw new Error("Rail doesn't work");
+    }
+  });
 
-test('Rail slide', async ({ page }) => {
+  test('Rail slide', async ({ page }) => {
     await playlistSong(page, 'XTS');
 
     await page.locator(`text=/.*XTS003#.*/`).click();
@@ -255,7 +261,11 @@ test('Rail slide', async ({ page }) => {
 
     await page.waitForTimeout(3000);
     await page.locator('.sc-iIEYCM').click();
-    await page.locator(`text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`).click();
+    await page
+      .locator(
+        `text=XTS003#Happy birthday to youHappy birthday to youHappy birthday to youHappy birt >> button >> nth=1`
+      )
+      .click();
 
     await page.locator('.sc-iIEYCM').click();
     await page.waitForSelector('[role="slider"]');
@@ -282,7 +292,7 @@ test('Rail slide', async ({ page }) => {
     }
   });
 
-test('Check if the next song run', async ({ page }) => {
+  test('Check if the next song run', async ({ page }) => {
     await playlistSong(page, 'XTS');
 
     await page.locator(`text=/.*XTS003#.*/`).click();
@@ -310,19 +320,19 @@ test('Check if the next song run', async ({ page }) => {
           }
         }
       }
-    }  
+    }
     await page.waitForSelector('.sc-kiYtDG');
     await checkPlayerIsRunning(page);
 
     const playlistTest = await page.evaluate(() => {
-        const playlist = [];
-        const numberSong = document.querySelectorAll('.MuiListItem-container').length;
-        const song = document.querySelectorAll('.MuiTypography-body1');
-        for (let i = 0; i < numberSong; i++) {
-          playlist.push(song[i].textContent);
-        }
-        return playlist;
-      });
+      const playlist = [];
+      const numberSong = document.querySelectorAll('.MuiListItem-container').length;
+      const song = document.querySelectorAll('.MuiTypography-body1');
+      for (let i = 0; i < numberSong; i++) {
+        playlist.push(song[i].textContent);
+      }
+      return playlist;
+    });
 
     if (playlistTest.length !== 1) {
       throw new Error("Slider doesn't work");
