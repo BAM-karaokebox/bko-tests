@@ -36,17 +36,17 @@ export const testBKO = () => {
     await page.locator('text="New Playlist"').click();
     await page.fill('.MuiInputBase-input.jss8, .MuiInputBase-input.jss14', 'test');
     await page.locator('text="OK"').click();
-    await page.locator('.sc-fxNNfJ > div:nth-child(3) > .sc-bsipQr > .MuiSvgIcon-root').click();
+    await page.locator('.sc-gIRixj.ecaJBu').locator('.MuiSvgIcon-root.sc-fybufo.evIhwh').click();
 
     await page.locator(`text=${Playlist[1]}`).click();
     await page.locator('button:has-text("Add to a playlist")').click();
-    await page.locator('.sc-boeKoK, .sc-lhuSvW.heICHz').nth(3).click();
-    await page.locator('.sc-fxNNfJ > div:nth-child(3) > .sc-bsipQr > .MuiSvgIcon-root').click();
+    await page.locator('.sc-cTkOiY.brFinj,.sc-cxFVQB.cUmVbs').nth(3).click();
+    await page.locator('.sc-gIRixj.ecaJBu').locator('.MuiSvgIcon-root.sc-fybufo.evIhwh').click();
 
     await page.locator(`text=${Playlist[2]}`).click();
     await page.locator('button:has-text("Add to a playlist")').click();
-    await page.locator('.sc-boeKoK, .sc-lhuSvW.heICHz').nth(3).click();
-    await page.locator('.sc-fxNNfJ > div:nth-child(3) > .sc-bsipQr > .MuiSvgIcon-root').click();
+    await page.locator('.sc-cTkOiY.brFinj,.sc-cxFVQB.cUmVbs').nth(3).click();
+    await page.locator('.sc-gIRixj.ecaJBu').locator('.MuiSvgIcon-root.sc-fybufo.evIhwh').click();
   };
 
   const checkPlaylist = async (page: Page) => {
@@ -68,7 +68,7 @@ export const testBKO = () => {
   test('Search function', async ({ page }) => {
     // search a song
     await page.type('[type="text"]', 'XTS');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(5000);
 
     // count the number of element wich containt this classes
     const song = page.locator('.MuiListItem-container');
