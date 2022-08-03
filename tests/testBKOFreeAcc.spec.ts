@@ -17,12 +17,10 @@ test.beforeAll(async ({ browser }) => {
 
   await page.goto(BASE_URL);
   await page.waitForTimeout(3000);
-  if (await page.locator('.sc-QplWO.dhAFcd').isVisible()) {
-    await page.locator('.sc-dacFzL >> .sc-QplWO ').click();
-  } else {
-    await page.locator('.sc-dacFzL').click();
-    await page.locator('text="Sign up."').click();
+  if (await page.locator('.sc-hvagB.dfJZUS').isVisible()) {
+    await page.locator('.sc-hvagB.dfJZUS').click();
   }
+  await page.locator('text="Sign up"').click();
 
   await page.locator('[placeholder="Enter your email address"]').fill(randomUsername);
   await page.locator('[placeholder="Create a password (minimum 6 characters)"]').fill('tsltest');
@@ -38,19 +36,23 @@ test.beforeAll(async ({ browser }) => {
       await page.waitForTimeout(3000);
     }
   }
-  const offer = await page.locator('.sc-iLcRNb').locator('.sc-hHKmLs >> nth=0').textContent();
+  const offer = await page.locator('.sc-cqtpGg').nth(0).textContent();
   if (offer == '€0') {
-    await page.locator('.sc-iLcRNb').nth(0).locator('.sc-hLGeHF').nth(0).click();
+    await page.locator('.sc-ezipRf.bSkNQK').nth(0).locator('.sc-bKNyAY.CXBcJ.sc-iMedgv.ilZRCA').nth(0).click();
   }
 });
 
 test.beforeEach(async ({ page }) => {
   // Create new account
   await page.goto(BASE_URL);
-  await page.locator('.sc-dacFzL').click();
-  await page.locator('[placeholder="Enter your email"]').fill(randomUsername);
+  if (await page.locator('.sc-hvagB.dfJZUS').isVisible()) {
+    await page.click('.sc-hvagB.dfJZUS');
+  };
+  if (await page.locator('text="Log in"').isVisible()) {
+    await page.click('text="Log in"');
+  };  await page.locator('[placeholder="Enter your email"]').fill(randomUsername);
   await page.locator('[placeholder="Enter your password"]').fill('tsltest');
   await page.locator('text=Login').click();
-  await page.locator('.sc-gYhigD').click();
   await page.waitForTimeout(3000);
+  await page.locator('.sc-iumJyn.exCtUA').click();
 });
