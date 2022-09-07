@@ -1,8 +1,5 @@
 name: BAM Karaoke Online Tests
 on:
-  push:
-    branches:
-      - BKO-115-remove-every-test-of-bam-karaoke-online-which-use-a-test-account
   workflow_dispatch:
   schedule:
     - cron: '0 9 * * *'
