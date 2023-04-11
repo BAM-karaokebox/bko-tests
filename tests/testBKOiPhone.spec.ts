@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const BASE_URL =
-  'https://www.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
+  'https://www.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring&traffic_type=monitoring';
 
 test.describe('test Bam Karaoke Online', testBKOiPhone);
 
