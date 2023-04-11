@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import {testBKO} from './testBKOimp.spec'
 
-const BASE_URL = 'https://www.app.staging.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring';
+const BASE_URL = 'https://www.app.staging.bam-karaokeonline.com/?utm_source=bkb-website-tests&utm_medium=qa-bot&utm_campaign=monitoring&traffic_type=monitoring';
 let randomUsername : string;
 
 test.describe('test Bam Karaoke Online free account',testBKO);
